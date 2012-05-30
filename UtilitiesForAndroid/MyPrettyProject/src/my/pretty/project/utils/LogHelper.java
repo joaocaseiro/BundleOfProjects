@@ -43,4 +43,10 @@ public class LogHelper {
 		}
 	}
 
+	public static void log(Class classCallingLog, int level, String message, boolean mVerbose) {
+		if(mVerbose) {
+			log(classCallingLog, level, message);
+		}
+	}
+
 }
