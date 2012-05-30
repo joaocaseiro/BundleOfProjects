@@ -1,1 +1,0 @@
-CREATE TABLE tbl_location (_id INTEGER PRIMARY KEY AUTOINCREMENT, id_server INTEGER NOT NULL, version INTEGER, active_location INTEGER NOT NULL, name TEXT NOT NULL, description TEXT, ref_point_x DOUBLE, ref_point_y DOUBLE, ref_point_z DOUBLE, creator TEXT, creation_date TEXT, owner_id INTEGER REFERENCES tbl_location(id_server) ON DELETE CASCADE );

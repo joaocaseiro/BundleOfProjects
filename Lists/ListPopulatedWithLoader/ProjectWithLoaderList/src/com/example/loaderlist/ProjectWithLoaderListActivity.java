@@ -3,6 +3,7 @@ package com.example.loaderlist;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
