@@ -18,6 +18,12 @@ public class LogHelper {
 		return tag;
 	}
 
+	public static void log(Class currentClass, int level, String message, boolean mVerbose) {
+		if(mVerbose) {
+			log(currentClass, level, message);
+		}
+	}
+	
 	public static void log(Class classCallingLog, int level, String message) {
 		String tag = LogHelper.getTagFromClass(classCallingLog);
 		log(tag, level, message);
@@ -42,5 +48,6 @@ public class LogHelper {
 			break;
 		}
 	}
+
 
 }

@@ -3,21 +3,13 @@ package com.example.loaderlist;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 
-import com.example.loaderlist.RetainedFragment.Executor;
 import com.example.loaderlist.database.Database;
-import com.example.loaderlist.database.SimpleObjectDatabase;
 
 public class ProjectWithLoaderListActivity extends Activity {
-
-	private static final int ID_NAME_LIST_CREATOR = 1;
 
 	private static Database db = null;
 
@@ -26,11 +18,6 @@ public class ProjectWithLoaderListActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		RetainedFragment fragment = RetainedFragment.getInstance(false, new MyExecutor(this), this);
-		transaction.add(fragment, RetainedFragment.RETAINED_FRAGMENT_MANAGER_TAG);
-		transaction.commit();
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.example.loaderlist.FillDatabaseFragment.DatabaseFilledCallback;
 import com.example.loaderlist.database.Database;
 import com.example.loaderlist.database.SimpleCursorLoader;
 import com.example.loaderlist.database.SimpleObjectDatabaseDescriptor;
@@ -25,7 +26,9 @@ import com.example.loaderlist.database.SimpleObjectDatabaseDescriptor;
 public class ListFragmentCursor extends ListFragment implements LoaderCallbacks<Cursor> {
 
 	private static final int ID_NAME_LIST_LOADER = 1;
+	private static final String WORKER_FRAGMENT_TAG = "workerFragment";
 	private SimpleCursorAdapter adapter;
+	private FillDatabaseFragment workerFragment;
 	private static Database db = null;
 
 	public static ListFragmentCursor getInstance() {
@@ -60,13 +63,12 @@ public class ListFragmentCursor extends ListFragment implements LoaderCallbacks<
 		super.onActivityCreated(savedInstanceState);
 
 		adapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, SimpleObjectDatabaseDescriptor.FIELDS, new int[] { R.id.list_item_id,
-				R.id.list_item_name });
-
+			R.id.list_item_name });
+		
 		ListView listView = (ListView) getView().findViewById(android.R.id.list);
 		listView.setAdapter(adapter);
-		getLoaderManager().initLoader(ID_NAME_LIST_LOADER, null, this);
 		listView.setOnItemClickListener(new OnItemClickListener() {
-
+			
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
 				FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -78,6 +80,32 @@ public class ListFragmentCursor extends ListFragment implements LoaderCallbacks<
 				transaction.commit();
 			}
 		});
+		
+		setListShown(false);
+		
+		
+		if((workerFragment = (FillDatabaseFragment) getActivity().getFragmentManager().findFragmentByTag(WORKER_FRAGMENT_TAG)) == null) {
+			workerFragment = new FillDatabaseFragment();
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			transaction.add(workerFragment, WORKER_FRAGMENT_TAG);
+			transaction.commit();
+		}
+		
+		workerFragment.setOnDatabaseFilledCallback(new DatabaseFilledCallback() {
+			@Override
+			public void dataReady() {
+				startGettingData();
+			}
+		});
+		
+		if(workerFragment.hasFinished()) {
+			startGettingData();
+		}
+		
+	}
+
+	protected void startGettingData() {
+		getLoaderManager().initLoader(ID_NAME_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -98,6 +126,9 @@ public class ListFragmentCursor extends ListFragment implements LoaderCallbacks<
 	@Override
 	public void onStop() {
 		super.onStop();
+		if(workerFragment != null) {
+			workerFragment.setOnDatabaseFilledCallback(null);
+		}
 	}
 
 	@Override
@@ -114,8 +145,10 @@ public class ListFragmentCursor extends ListFragment implements LoaderCallbacks<
 	public void onDestroy() {
 		super.onDestroy();
 
-		db.close();
-		db = null;
+		if(db != null) {
+			db.close();
+			db = null;
+		}
 	}
 
 	@Override
@@ -160,6 +193,7 @@ public class ListFragmentCursor extends ListFragment implements LoaderCallbacks<
 		int id = loader.getId();
 		if (ID_NAME_LIST_LOADER == id) {
 			adapter.swapCursor(cursor);
+			setListShown(true);
 		}
 	}
 
