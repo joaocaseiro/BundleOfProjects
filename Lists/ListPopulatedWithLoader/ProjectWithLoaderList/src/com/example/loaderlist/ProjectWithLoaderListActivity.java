@@ -26,7 +26,7 @@ public class ProjectWithLoaderListActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+		 
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 		RetainedFragment fragment = RetainedFragment.getInstance(false, new MyExecutor(this), this);
 		transaction.add(fragment, RetainedFragment.RETAINED_FRAGMENT_MANAGER_TAG);
