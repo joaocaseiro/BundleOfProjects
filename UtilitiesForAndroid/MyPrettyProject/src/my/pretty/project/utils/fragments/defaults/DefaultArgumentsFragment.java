@@ -1,4 +1,4 @@
-package my.pretty.project.utils.fragments;
+package my.pretty.project.utils.fragments.defaults;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -9,7 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class DefaultFragment extends Fragment {
+public class DefaultArgumentsFragment extends Fragment {
+	
+	public static DefaultArgumentsFragment getInstance() {
+		DefaultArgumentsFragment fragment = new DefaultArgumentsFragment();
+		Bundle arguments = new Bundle();
+		
+		fragment.setArguments(arguments);
+		return fragment;
+	}
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -82,3 +90,4 @@ public class DefaultFragment extends Fragment {
 		super.onConfigurationChanged(newConfig);
 	}
 }
+
