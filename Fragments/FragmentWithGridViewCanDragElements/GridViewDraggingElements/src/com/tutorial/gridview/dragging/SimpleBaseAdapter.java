@@ -3,8 +3,13 @@ package com.tutorial.gridview.dragging;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -199,17 +204,13 @@ public class SimpleBaseAdapter extends BaseAdapter {
 	private static class MyDragShadowBuilder extends View.DragShadowBuilder {
 
 		// The drag shadow image, defined as a drawable thing
-		private static Drawable shadow;
+		private static Bitmap shadow;
 
 		// Defines the constructor for myDragShadowBuilder
 		public MyDragShadowBuilder(View v) {
 
 			// Stores the View parameter passed to myDragShadowBuilder.
 			super(v);
-
-			// Creates a draggable image that will fill the Canvas provided by
-			// the system.
-			shadow = new ColorDrawable(Color.LTGRAY);
 		}
 
 		// Defines a callback that sends the drag shadow dimensions and touch
@@ -222,18 +223,20 @@ public class SimpleBaseAdapter extends BaseAdapter {
 
 			// Sets the width of the shadow to half the width of the original
 			// View
-			width = getView().getWidth() / 2;
+			width = getView().getWidth();
 
 			// Sets the height of the shadow to half the height of the original
 			// View
-			height = getView().getHeight() / 2;
+			height = getView().getHeight();
 
 			// The drag shadow is a ColorDrawable. This sets its dimensions to
 			// be the same as the
 			// Canvas that the system will provide. As a result, the drag shadow
 			// will fill the
 			// Canvas.
-			shadow.setBounds(0, 0, width, height);
+			shadow = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+			Canvas canvas = new Canvas(shadow);
+			getView().draw(canvas);
 
 			// Sets the size parameter's width and height values. These get back
 			// to the system
@@ -252,7 +255,7 @@ public class SimpleBaseAdapter extends BaseAdapter {
 		public void onDrawShadow(Canvas canvas) {
 
 			// Draws the ColorDrawable in the Canvas passed in from the system.
-			shadow.draw(canvas);
+			canvas.drawBitmap(shadow, new Matrix(), new Paint());
 		}
 	}
 
