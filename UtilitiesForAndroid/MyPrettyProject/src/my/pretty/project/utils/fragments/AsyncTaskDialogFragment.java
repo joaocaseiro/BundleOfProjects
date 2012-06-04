@@ -7,6 +7,7 @@ import java.util.concurrent.TimeoutException;
 
 import my.pretty.project.utils.LogHelper;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -156,5 +157,14 @@ public abstract class AsyncTaskDialogFragment<Params, Progress, Result> extends 
 		protected void publishProgressHelper(Progress... progress) {
 			super.publishProgress(progress);
 		}
+	}
+	
+	@Override
+	public void onDestroyView() {
+		Dialog dialog = null;
+		if ((dialog = getDialog()) != null) {	//bug fix
+			dialog.setDismissMessage(null);
+		}
+		super.onDestroyView();
 	}
 }
