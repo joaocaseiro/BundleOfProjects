@@ -79,7 +79,7 @@ public class LoaderFragment extends AsyncTaskDialogFragment<Void, Integer, Void>
 	}
 
 	@Override
-	public void onDestroyView() {
+	public void onDestroyView() {	//bug fix
 		Dialog dialog = null;
 		if ((dialog = getDialog()) != null) {
 			dialog.setDismissMessage(null);

@@ -40,6 +40,7 @@ public class SimpleBaseAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_item_layout, parent, false);
 			viewHolder.text = (TextView) convertView.findViewById(R.id.list_item_text);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.list_item_image);
+			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}

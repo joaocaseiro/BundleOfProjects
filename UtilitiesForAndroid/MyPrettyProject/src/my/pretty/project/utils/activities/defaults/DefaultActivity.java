@@ -1,4 +1,4 @@
-package my.pretty.project.utils.activities;
+package my.pretty.project.utils.activities.defaults;
 
 import android.app.Activity;
 import android.app.Dialog;
