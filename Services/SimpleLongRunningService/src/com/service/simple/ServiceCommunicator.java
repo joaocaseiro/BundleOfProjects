@@ -94,6 +94,16 @@ public class ServiceCommunicator {
 		i.setAction(UpdaterService.USER_ISSUED_UPDATE_ALL_DB);
 		ctx.startService(i);
 	}
+	
+	/**
+	 * Static method to shutdown (non-block)
+	 */
+	public void shutdown(Context ctx) {
+		LogHelper.log(UpdaterService.class, Log.DEBUG, "Static method shutdown from Service started");
+		Intent i = new Intent(ctx, UpdaterService.class);
+		i.setAction(UpdaterService.STOP_UPDATING_AND_DIE);
+		ctx.startService(i);
+	}
 
 	public boolean isServiceRunning() {
 		return serviceRunning;
