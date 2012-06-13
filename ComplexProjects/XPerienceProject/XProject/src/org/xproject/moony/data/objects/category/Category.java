@@ -28,6 +28,9 @@ public class Category implements DatabaseObject {
 	}
 
 	@Override
+	/**
+	 * returns the category with the given id or null if not found
+	 */
 	public DatabaseObject findOne(long id, XResolver resolver) {
 		LogHelper.log(Category.class, Log.DEBUG, " - Category.findOne(id(" + id + "))");
 		Category category = null;
@@ -42,6 +45,9 @@ public class Category implements DatabaseObject {
 	}
 
 	@Override
+	/**
+	 * returns the category with the id of the given object(must be a category or an error is thrown) 
+	 */
 	public DatabaseObject findOne(DatabaseObject object, XResolver resolver) {
 		if (object instanceof Category) {
 			Category category = (Category) object;
@@ -52,6 +58,13 @@ public class Category implements DatabaseObject {
 	}
 
 	@Override
+	/**
+	 * returns a list of all the categories. If the list provided is not null, it adds these elements to the end of the list 
+	 * 
+	 * @param list - the list in which the objects found are to be added or null if a new list is to be returned
+	 * @param resolver - the ContentResolver
+	 * @returns the list of objects (categories) in the database
+	 */
 	public List<DatabaseObject> findAll(List<DatabaseObject> list, XResolver resolver) {
 		LogHelper.log(Task.class, Log.DEBUG, " - Category.findAll(list(" + list + "), resolver(" + resolver + "))");
 		if (list == null) {
@@ -69,6 +82,14 @@ public class Category implements DatabaseObject {
 	}
 
 	@Override
+	/**
+	 * saves the object to the database or updates it if it already exists. The object must be a category or an error will be thrown.
+	 * returns the object that was added or updated (if it was added the id field should be the default(-1) and it will be updated with the id value)
+	 *  
+	 * @param object - the object to be added or updated
+	 * @param resolver - the ContentResolver
+	 * @returns the object that was added or updated with the new information. If the object has id = -1 it was not possible to add it to the database
+	 */
 	public DatabaseObject save(DatabaseObject object, XResolver resolver) {
 		long id = -1;
 
@@ -94,6 +115,13 @@ public class Category implements DatabaseObject {
 	}
 
 	@Override
+	/**
+	 * removes the object with the given id
+	 * 
+	 * @param id - id of the object to be removed
+	 * @param resolver - the ContentResolver
+	 * @returns the number of objects removed
+	 */
 	public int remove(long id, XResolver resolver) {
 		LogHelper.log(Category.class, Log.DEBUG, " - Category.remove(id(" + id + "), resolver(" + resolver + "))");
 		int count = resolver.removeEntry(CategoryDescriptor.TABLE_NAME, CategoryDescriptor.ID + " = " + id, null);
@@ -101,6 +129,13 @@ public class Category implements DatabaseObject {
 	}
 
 	@Override
+	/**
+	 * removes the object with the same id as the object passed. Must be a category or an error will be thrown.
+	 * 
+	 * @param object - object to be removed
+	 * @param resolver - the ContentResolver
+	 * @returns the number of objects removed
+	 */
 	public int remove(DatabaseObject object, XResolver resolver) {
 		if (object instanceof Category) {
 			Category category = (Category) object;
@@ -111,6 +146,15 @@ public class Category implements DatabaseObject {
 		}
 	}
 
+	/**
+	 * removes all the objects from the database
+	 * 
+	 * @param list - if not null, expects a list of objects to be removed instead of all objects. The objects must be categories and only the id 
+	 * of these categories will be taken into account when removing
+	 *  
+	 * @param resolver - the ContentResolver
+	 * @returns the number of objects removed
+	 */
 	public int removeAll(List<DatabaseObject> list, XResolver resolver) {
 		LogHelper.log(Task.class, Log.DEBUG, " - Category.removeAll(list(" + list + "), resolver(" + resolver + "))");
 
