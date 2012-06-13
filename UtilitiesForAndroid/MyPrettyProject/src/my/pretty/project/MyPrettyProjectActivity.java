@@ -9,5 +9,14 @@ public class MyPrettyProjectActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        int i = 0, j = 5;
+
+        for( ; i < 3 && j++ < 8; i++) {
+        	System.out.println(i + "_" + j);
+        }
+        //0_6
+        //1_7
+        //2_8
     }
 }
